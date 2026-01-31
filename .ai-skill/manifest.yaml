@@ -1,0 +1,10 @@
+skill_name: "AI-CoDev-Station Orchestrator"
+description: "一个基于 GitHub API 的模块化 AI 协同开发站。具备多仓库调度、结构化上下文聚合、以及全语言代码审计能力。"
+version: "1.6.0"
+category: "AI-Infrastructure"
+capabilities:
+  - "Multi-Repository Management (Repository Matrix)"
+  - "Structured Context Aggregation (MD/JSON/YAML/Code)"
+  - "Automated Image Hosting with Canvas Compression"
+  - "Real-time Sandbox Preview (HTML/CSS/JS)"
+tags: [Serverless, ESM, GitHub_API, AI_Context]

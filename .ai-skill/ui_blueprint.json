@@ -1,0 +1,34 @@
+{
+  "sidebar_controls": {
+    "repo_select": "repoSelector",
+    "folder_select": "folderSelector",
+    "file_list": "fileListGroup",
+    "search": "fileSearchInput",
+    "skill_card": "manifestBanner",
+    "context_btn": "btnCopyContext"
+  },
+  "editor_toolbar": {
+    "ops": {
+      "rename_file": "btnRenameFile",
+      "upload": "btnUpload",
+      "delete": "btnDelete",
+      "sync": "btnLoad",
+      "save": "btnSave",
+      "emoji": "btnEmoji"
+    },
+    "inputs": {
+      "text_area": "editor",
+      "file_input": "imageFileInput"
+    }
+  },
+  "preview_system": {
+    "container": "markdown-preview",
+    "error_log": "syntax-error-container",
+    "copy_raw": "btnCopyRaw"
+  },
+  "responsive_rules": {
+    "pc_threshold": "> 768px",
+    "mobile_sidebar": "Offcanvas (auto-hide on file switch)",
+    "text_hiding": "d-none d-sm-inline (hides button text on narrow screens)"
+  }
+}

@@ -1,0 +1,28 @@
+system_logic:
+  runtime: "Native ES Modules (Browser Environment)"
+  storage: "GitHub Contents API (REST)"
+
+  sync_strategy:
+    cache_busting: "Query Param (?t=Date.now())"
+    consistency_delay:
+      standard: "800ms sleep"
+      bulk_move: "1500ms sleep"
+    sha_locking: "Strict: Fetch SHA before DELETE/PUT; Auto-update SHA post-success"
+
+  rendering_engine:
+    markdown: "Marked.js + Private Image Blob URL Injection"
+    html: "Sandboxed <iframe> via srcdoc"
+    structured_data: "JSON.parse/stringify formatting"
+    syntax_highlight: "Highlight.js with custom dark-themed pre/code"
+
+  module_mapping:
+    config: "localStorage & Shared Global State"
+    github_api: "Centralized fetch wrapper & Repository Matrix fetcher"
+    ui_manager: "Repo/Folder/File listing & Active-state tracking"
+    editor_engine: "Input event handler & Syntax Auditor"
+    utils: "Unicode-safe encoding & UI Feedback badges"
+    emoji: "Persistent local custom emoji vault"
+
+  security:
+    auth: "Token-based (Personal Access Token)"
+    scope: "Supports Public (ReadOnly) and Private (ReadWrite) modes"

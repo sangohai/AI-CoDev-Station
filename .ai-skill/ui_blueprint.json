@@ -1,34 +1,38 @@
 {
-  "sidebar_controls": {
-    "repo_select": "repoSelector",
-    "folder_select": "folderSelector",
+  "navigation_hub": {
+    "repo_selector": "repoSelector",
+    "folder_selector": "folderSelector",
     "file_list": "fileListGroup",
-    "search": "fileSearchInput",
-    "skill_card": "manifestBanner",
-    "context_btn": "btnCopyContext"
+    "search": "fileSearchInput"
+  },
+  "skill_center": {
+    "manifest_banner": "manifestBanner",
+    "skill_name": "skillName",
+    "aggregate_btn": "btnCopyContext"
   },
   "editor_toolbar": {
-    "ops": {
-      "rename_file": "btnRenameFile",
-      "upload": "btnUpload",
-      "delete": "btnDelete",
-      "sync": "btnLoad",
-      "save": "btnSave",
-      "emoji": "btnEmoji"
+    "buttons": {
+      "rename_doc": "btnRenameFile",
+      "upload_img": "btnUpload",
+      "delete_doc": "btnDelete",
+      "sync_cloud": "btnLoad",
+      "save_cloud": "btnSave",
+      "emoji_panel": "btnEmoji"
     },
-    "inputs": {
-      "text_area": "editor",
-      "file_input": "imageFileInput"
+    "containers": {
+      "text_editor": "editor",
+      "emoji_picker": "emojiPicker",
+      "error_log": "syntax-error-container"
     }
   },
-  "preview_system": {
-    "container": "markdown-preview",
-    "error_log": "syntax-error-container",
-    "copy_raw": "btnCopyRaw"
+  "preview_logic": {
+    "main_preview": "markdown-preview",
+    "copy_raw": "btnCopyRaw",
+    "html_btn_id": "window.station.previewHtmlInNewTab()"
   },
-  "responsive_rules": {
-    "pc_threshold": "> 768px",
-    "mobile_sidebar": "Offcanvas (auto-hide on file switch)",
-    "text_hiding": "d-none d-sm-inline (hides button text on narrow screens)"
+  "css_standards": {
+    "active_state": ".list-group-item.active (strong blue with inset shadow)",
+    "responsive": "d-none d-sm-inline (hides text on mobile)",
+    "auditor": "alert-danger with left-border signal"
   }
 }

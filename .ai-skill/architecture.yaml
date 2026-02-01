@@ -1,28 +1,20 @@
-system_logic:
-  runtime: "Native ES Modules (Browser Environment)"
-  storage: "GitHub Contents API (REST)"
+architecture_logic:
+  paradigm: "Pure Native ES Modules (Browser-side)"
+  storage: "GitHub Contents API (Stateless/Serverless)"
 
-  sync_strategy:
-    cache_busting: "Query Param (?t=Date.now())"
-    consistency_delay:
-      standard: "800ms sleep"
-      bulk_move: "1500ms sleep"
-    sha_locking: "Strict: Fetch SHA before DELETE/PUT; Auto-update SHA post-success"
+  module_structure:
+    main_js: "Entry point. Event binding, lifecycle orchestration, and global window.station bridge."
+    modules/config.js: "Central state management (config, state) and localStorage persistence."
+    modules/github-api.js: "Advanced fetch wrapper, SHA-locking, and Repo Matrix fetcher."
+    modules/ui_manager.js: "DOM rendering for dynamic repo/folder/file lists with active-state tracking."
+    modules/editor_engine.js: "Smart renderer (Markdown, JSON, YAML) and on-demand HTML Sandbox."
+    modules/utils.js: "Unicode-safe encoding (Base64), sleep timers, and UI feedback status."
+    modules/emoji.js: "Customizable local-storage emoji vault."
 
-  rendering_engine:
-    markdown: "Marked.js + Private Image Blob URL Injection"
-    html: "Sandboxed <iframe> via srcdoc"
-    structured_data: "JSON.parse/stringify formatting"
-    syntax_highlight: "Highlight.js with custom dark-themed pre/code"
+  critical_mechanisms:
+    sync: "Query params cache-busting (?t=Date.now()) + Sleep timers (800-1500ms) for Git eventual consistency."
+    security: "ReadOnly mode for public harvester; No-persistence policy for non-owner repositories."
+    sha_management: "Strict sequence: Get latest SHA -> Modify/Delete -> Update local SHA reference."
+    html_preview: "On-demand execution via Blob URL (window.open) to optimize memory and security."
 
-  module_mapping:
-    config: "localStorage & Shared Global State"
-    github_api: "Centralized fetch wrapper & Repository Matrix fetcher"
-    ui_manager: "Repo/Folder/File listing & Active-state tracking"
-    editor_engine: "Input event handler & Syntax Auditor"
-    utils: "Unicode-safe encoding & UI Feedback badges"
-    emoji: "Persistent local custom emoji vault"
-
-  security:
-    auth: "Token-based (Personal Access Token)"
-    scope: "Supports Public (ReadOnly) and Private (ReadWrite) modes"
+  encoding_standard: "UTF-8 safe Base64 (btoa + unescape + encodeURIComponent)"

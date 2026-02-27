@@ -1,38 +1,55 @@
 {
   "navigation_hub": {
-    "repo_selector": "repoSelector",
-    "folder_selector": "folderSelector",
-    "file_list": "fileListGroup",
-    "search": "fileSearchInput"
-  },
-  "skill_center": {
-    "manifest_banner": "manifestBanner",
-    "skill_name": "skillName",
-    "aggregate_btn": "btnCopyContext"
-  },
-  "editor_toolbar": {
-    "buttons": {
-      "rename_doc": "btnRenameFile",
-      "upload_img": "btnUpload",
-      "delete_doc": "btnDelete",
-      "sync_cloud": "btnLoad",
-      "save_cloud": "btnSave",
-      "emoji_panel": "btnEmoji"
+    "selectors": {
+      "repo_matrix": "repoSelector"
     },
-    "containers": {
-      "text_editor": "editor",
-      "emoji_picker": "emojiPicker",
-      "error_log": "syntax-error-container"
+    "tree_system": {
+      "container": "fileListGroup",
+      "search_input": "fileSearchInput",
+      "item_class": "tree-item",
+      "folder_class": "folder-node",
+      "active_class": "active"
     }
   },
-  "preview_logic": {
-    "main_preview": "markdown-preview",
-    "copy_raw": "btnCopyRaw",
-    "html_btn_id": "window.station.previewHtmlInNewTab()"
+  "asset_management": {
+    "incubate_repo": "btnNewRepo",
+    "fork_repo": "btnForkRepo",
+    "destroy_repo": "btnDeleteRepo",
+    "loader_overlay": "global-loader"
   },
-  "css_standards": {
-    "active_state": ".list-group-item.active (strong blue with inset shadow)",
-    "responsive": "d-none d-sm-inline (hides text on mobile)",
-    "auditor": "alert-danger with left-border signal"
+  "skill_center": {
+    "banner": "manifestBanner",
+    "actions": {
+      "aggregate_context": "btnCopyContext"
+    }
+  },
+  "editor_toolbar": {
+    "document_ops": {
+      "rename": "btnRenameFile",
+      "upload_image": "btnUpload",
+      "delete": "btnDelete",
+      "sync": "btnLoad",
+      "save": "btnSave"
+    },
+    "utilities": {
+      "emoji_panel": "btnEmoji",
+      "emoji_container": "emojiPicker",
+      "copy_raw_text": "btnCopyRaw"
+    }
+  },
+  "global_ops": {
+    "creation": {
+      "new_file": "btnNewFile",
+      "new_folder": "btnNewFolder"
+    },
+    "system": {
+      "theme_toggle": "themeBtn",
+      "settings_open": "settingsBtn",
+      "settings_save": "btnSaveSettings"
+    }
+  },
+  "auditor_system": {
+    "error_container": "syntax-error-container",
+    "preview_content": "markdown-preview"
   }
 }

@@ -1,20 +1,18 @@
-architecture_logic:
-  paradigm: "Pure Native ES Modules (Browser-side)"
-  storage: "GitHub Contents API (Stateless/Serverless)"
+system_architecture:
+  paradigm: "Pure ES Modules (Native Browser Support)"
+  entry_point: "main.js (Dispatcher)"
 
-  module_structure:
-    main_js: "Entry point. Event binding, lifecycle orchestration, and global window.station bridge."
-    modules/config.js: "Central state management (config, state) and localStorage persistence."
-    modules/github-api.js: "Advanced fetch wrapper, SHA-locking, and Repo Matrix fetcher."
-    modules/ui_manager.js: "DOM rendering for dynamic repo/folder/file lists with active-state tracking."
-    modules/editor_engine.js: "Smart renderer (Markdown, JSON, YAML) and on-demand HTML Sandbox."
-    modules/utils.js: "Unicode-safe encoding (Base64), sleep timers, and UI feedback status."
-    modules/emoji.js: "Customizable local-storage emoji vault."
+  modules:
+    config: "Global state (config, state) and localStorage persistence."
+    github-api: "GitHub REST/Git Data API engine. Handles CRUD, Repo creation, Fork, and Delete."
+    ui_manager: "Tree-based sidebar rendering and path-state synchronization."
+    editor_engine: "Syntax-aware preview (MD/JSON/YAML/HTML) and image compression."
+    utils: "Unicode-safe Base64 encoding, sleep timers, and UI status feedback."
+    emoji: "Persistent local custom emoji storage and picker logic."
 
-  critical_mechanisms:
-    sync: "Query params cache-busting (?t=Date.now()) + Sleep timers (800-1500ms) for Git eventual consistency."
-    security: "ReadOnly mode for public harvester; No-persistence policy for non-owner repositories."
-    sha_management: "Strict sequence: Get latest SHA -> Modify/Delete -> Update local SHA reference."
-    html_preview: "On-demand execution via Blob URL (window.open) to optimize memory and security."
+  logic_flow:
+    incubation: "createRepo -> sleep(4s) -> sequential template injection (.ai-skill/*) -> reload"
+    sync: "Cache-busting (?t=now) + consistency sleep (800ms-1000ms)"
+    security: "Double-confirmation for deletion + safeBind event pattern to prevent JS crashes"
 
-  encoding_standard: "UTF-8 safe Base64 (btoa + unescape + encodeURIComponent)"
+  coding_standard: "JSDoc-enforced type hinting for all exported functions."

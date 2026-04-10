@@ -1,7 +1,71 @@
-/* --- 基础布局 --- */
+/* --- 1. 基础全局规范 --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bs-body-bg);
 }
+
+/* 滚动条美化 */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb { background: #666; }
+
+/* --- 2. 侧边栏与资产管理器 (Boxes) --- */
+
+#sidebarMenu {
+    background-color: var(--bs-tertiary-bg);
+}
+
+/* [核心] 文件 BOX 统一深色背景 */
+#fileListGroup {
+    background-color: #2a2d31 !important; /* 极致深灰/黑色 */
+    border-color: #2d2d2d !important;
+    min-height: 200px;
+}
+
+/* 文件项基础样式 */
+#fileListGroup .list-group-item {
+    background-color: transparent; /* 透明背景以显露容器的黑色 */
+    color: #b0b0b0;               /* 浅灰色文字 */
+    border: none;
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+/* 悬停效果：亮灰色提示 */
+#fileListGroup .list-group-item:hover:not(.active) {
+    background-color: #2a2d31 !important;
+    color: #ffffff !important;
+}
+
+/* 选中状态：深蓝色高亮 */
+#fileListGroup .list-group-item.active {
+    background-color: #0d6efd !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: inset 4px 0 0 0 #004ab3 !important;
+}
+
+/* 技能卡片 (Manifest Banner) */
+.skill-card {
+    border-style: dashed !important;
+    background-color: rgba(13, 110, 253, 0.08) !important;
+    transition: all 0.3s;
+}
+.skill-card:hover {
+    background-color: rgba(13, 110, 253, 0.15) !important;
+}
+
+/* 微型按钮 */
+.btn-xs {
+    padding: 0.15rem 0.4rem;
+    font-size: 0.7rem;
+    border-radius: 0.2rem;
+}
+
+/* --- 3. 编辑器与预览系统 --- */
 
 #markdown-preview {
     font-size: 16px;
@@ -14,81 +78,37 @@ body {
     max-width: 100%;
     border-radius: 8px;
     margin: 10px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* --- [核心] 树状列表视觉修正 --- */
-.tree-item {
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-    padding-right: 10px !important;
-    margin: 1px 0;
-    font-size: 0.85rem;
-    border-radius: 4px !important;
-    /* 增加轻微圆角 */
-    border: none !important;
-    color: var(--bs-body-color);
-    display: block;
-    width: 100%;
-    transition: background-color 0.15s ease;
-}
-
-/* 解决 Hover 错位，确保背景色完整覆盖 */
-.tree-item:hover {
-    background-color: var(--bs-primary-bg-subtle) !important;
-    color: var(--bs-primary-text-emphasis) !important;
-}
-
-/* 激活项视觉强化 */
-.tree-item.active {
-    background-color: #0d6efd !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    box-shadow: 0 2px 6px rgba(13, 110, 253, 0.3) !important;
-}
-
-/* 文件夹节点样式 */
-.folder-node {
-    color: var(--bs-secondary-color);
-}
-
-/* --- [移动端适配优化] --- */
-@media (max-width: 768px) {
-    .tree-item {
-        font-size: 0.92rem;
-        /* 移动端字号稍大 */
-        padding-top: 10px !important;
-        /* 增加触控高度 */
-        padding-bottom: 10px !important;
-    }
-
-    /* 侧边栏宽度优化，防止深层级挤压 */
-    .offcanvas-md {
-        width: 85% !important;
-    }
-}
-
-/* --- 其它组件样式 --- */
+/* 代码预览区：与文件 BOX 风格统一 */
 #markdown-preview pre {
     background-color: #1e1e1e !important;
-    padding: 1.2rem;
+    padding: 1.25rem;
     border-radius: 8px;
     border: 1px solid #333;
     overflow-x: auto;
-    margin-bottom: 1rem;
 }
 
 #markdown-preview pre code {
     font-family: 'Cascadia Code', Consolas, monospace;
     font-size: 0.88rem;
-    color: #e0e0e0;
+    color: #dcdcdc;
     background: transparent !important;
 }
 
+/* 错误提示 */
 #syntax-error-container .alert {
     border-left: 4px solid #dc3545;
     animation: slideDown 0.3s ease;
 }
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 4. 功能组件 --- */
 
 .emoji-picker-panel {
     position: absolute;
@@ -99,6 +119,7 @@ body {
     max-height: 400px;
     overflow-y: auto;
     padding: 10px;
+    background-color: var(--bs-body-bg);
 }
 
 .emoji-item {
@@ -109,23 +130,17 @@ body {
     display: inline-block;
     transition: transform 0.2s;
 }
+.emoji-item:hover { transform: scale(1.25); }
 
-.emoji-item:hover {
-    transform: scale(1.2);
+#global-loader {
+    backdrop-filter: blur(5px);
 }
 
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #adb5bd;
-    border-radius: 3px;
-}
-
+/* --- 5. 响应式与排版修正 --- */
 @media (max-width: 768px) {
-    .card-header .btn span {
-        display: none;
-    }
+    .card-header .btn span { display: none; }
+}
+
+.navbar .btn, .card-header .btn {
+    white-space: nowrap !important;
 }

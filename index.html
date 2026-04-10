@@ -1,33 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-bs-theme="light">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-CoDev-Station | 开发者工作站</title>
+    <title>AI-CoDev-Station | 资产管理器</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="bg-body-tertiary overflow-hidden">
-    <!-- 全屏遮罩 -->
-    <div id="global-loader"
-        class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-none flex-column align-items-center justify-content-center"
-        style="z-index: 9999;">
+    <!-- 全屏加载遮罩 -->
+    <div id="global-loader" class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-none flex-column align-items-center justify-content-center" style="z-index: 9999;">
         <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
-        <h5 class="text-white fw-bold" id="loader-text">同步中...</h5>
+        <h5 class="text-white fw-bold" id="loader-text">同步云端资产...</h5>
     </div>
 
+    <!-- 顶部导航 -->
     <nav class="navbar navbar-expand bg-body border-bottom shadow-sm" style="height: 60px;">
         <div class="container-fluid flex-nowrap">
-            <button class="btn btn-outline-secondary d-md-none me-2 border-0 flex-shrink-0" type="button"
-                data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">☰</button>
-            <a class="navbar-brand fw-bold text-primary d-none d-lg-block flex-shrink-0" href="#">🚀
-                AI-CoDev-Station</a>
+            <button class="btn btn-outline-secondary d-md-none me-2 border-0 flex-shrink-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">☰</button>
+            <a class="navbar-brand fw-bold text-primary d-none d-lg-block flex-shrink-0" href="#">🚀 AI-CoDev-Station</a>
             <div class="ms-auto d-flex gap-2 align-items-center flex-shrink-0">
-                <span id="saveStatus"
-                    class="badge rounded-pill text-bg-secondary fw-normal small d-none d-sm-inline">就绪</span>
+                <span id="saveStatus" class="badge rounded-pill text-bg-secondary fw-normal small d-none d-sm-inline">就绪</span>
                 <button class="btn btn-sm btn-icon btn-outline-secondary border-0" id="themeBtn">🌙</button>
                 <button class="btn btn-sm btn-icon btn-outline-primary" id="settingsBtn">⚙️</button>
             </div>
@@ -36,146 +30,98 @@
 
     <div class="container-fluid p-0">
         <div class="row g-0" style="height: calc(100vh - 60px);">
-            <!-- 左侧侧边栏 -->
-            <div class="col-md-3 col-lg-2 offcanvas-md offcanvas-start bg-body-tertiary border-end h-100 d-flex flex-column"
-                tabindex="-1" id="sidebarMenu">
-                <div class="offcanvas-header border-bottom">
-                    <h5 class="offcanvas-title fw-bold">📂 导航中心</h5><button type="button" class="btn-close"
-                        data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"></button>
-                </div>
-                <div class="offcanvas-body p-0 d-flex flex-column h-100">
-                    <div class="p-3 border-bottom bg-body-secondary bg-opacity-25">
-                        <!-- 技能卡片 -->
-                        <div id="manifestBanner"
-                            class="skill-card mb-3 p-2 bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded"
-                            style="display:none;">
-                            <div class="d-flex justify-content-between align-items-center mb-1"><span
-                                    class="badge text-bg-primary" style="font-size: 0.55rem;">SKILL CONFIG</span><span
-                                    id="skillVersion" class="text-muted font-monospace"
-                                    style="font-size: 0.6rem;">v1.0.0</span></div>
-                            <h6 id="skillName" class="fw-bold mb-1 small text-primary text-truncate">未命名技能</h6>
-                            <p id="skillDesc" class="text-muted mb-2 small-text">就绪</p>
-                            <button id="btnCopyContext"
-                                class="btn btn-primary btn-sm w-100 py-1 fw-bold border-0 shadow-sm">🚀 聚合技能上下文</button>
-                        </div>
-
-                        <label class="small text-muted fw-bold mb-1 d-block text-uppercase"
-                            style="font-size:0.6rem;">当前仓库 (Repository)</label>
-                        <select id="repoSelector" class="form-select form-select-sm fw-bold mb-1 shadow-sm"
-                            style="background-color: var(--bs-primary-bg-subtle);"></select>
-
-                        <div class="text-end mb-2">
-                            <button id="btnDeleteRepo" class="btn btn-link text-danger p-0 small"
-                                style="font-size: 0.65rem; text-decoration: none;">🗑️ 销毁此仓库</button>
-                        </div>
-
-                        <!-- 移除了 folderSelector 下拉框，直接展示文件夹操作按钮 -->
-                        <div class="d-flex gap-1">
-                            <button id="btnRenameFolder"
-                                class="btn btn-sm btn-outline-primary flex-grow-1 py-1 text-nowrap"
-                                style="display:none;">✏️ 重命名</button>
-                            <button id="btnDeleteFolder"
-                                class="btn btn-sm btn-outline-danger flex-grow-1 py-1 text-nowrap"
-                                style="display:none;">🗑️ 删除目录</button>
-                        </div>
-                    </div>
-
+            <!-- 左侧侧边栏 (控制中心) -->
+            <div class="col-md-4 col-lg-3 col-xl-2 offcanvas-md offcanvas-start bg-body-tertiary border-end h-100 d-flex flex-column" tabindex="-1" id="sidebarMenu">
+                <div class="offcanvas-header border-bottom"><h5 class="offcanvas-title fw-bold">📂 资产管理器</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"></button></div>
+                <div class="offcanvas-body p-0 d-flex flex-column h-100 overflow-y-auto">
+                    
+                    <!-- 1. 全局层 -->
                     <div class="p-3 border-bottom">
-                        <button id="btnBackToHome" class="btn btn-xs btn-primary w-100 mb-2 py-1 fw-bold"
-                            style="display:none;">🏠 返回主库</button>
-                        <button id="btnNewRepo" class="btn btn-sm btn-primary w-100 fw-bold mb-2 shadow-sm"
-                            style="background: linear-gradient(135deg, #0d6efd, #6610f2); border: 0;">🌟 孵化新蓝图</button>
-                        <div id="opsGroup" class="d-flex gap-1 mb-2">
-                            <button id="btnNewFile" class="btn btn-sm btn-outline-success flex-grow-1 fw-bold">➕
-                                新建文档</button>
-                            <button id="btnNewFolder" class="btn btn-sm btn-outline-primary">📁 新建目录</button>
+                        <button id="btnForkRepo" class="btn btn-xs btn-outline-info w-100 py-1 fw-bold shadow-sm">🔱 Fork 外部资源仓库</button>
+                    </div>
+
+                    <!-- 2. 仓库管理 (Repo Box) -->
+                    <div class="p-3 border-bottom bg-body">
+                        <label class="small text-muted fw-bold mb-2 d-block text-uppercase" style="font-size:0.6rem;">1. 仓库管理 (Repo)</label>
+                        <div class="input-group input-group-sm mb-2 shadow-sm">
+                            <select id="repoSelector" class="form-select fw-bold border-primary border-opacity-25"></select>
+                            <button id="btnNewRepo" class="btn btn-success" title="创建新仓库">＋</button>
                         </div>
-                        <button id="btnForkRepo" class="btn btn-xs btn-outline-info w-100 py-1 fw-bold">🔱 Fork
-                            外部资源</button>
+                        <div class="d-flex gap-1">
+                            <button id="btnRenameRepo" class="btn btn-xs btn-outline-secondary flex-grow-1 py-1">✏️ 改名</button>
+                            <button id="btnDeleteRepo" class="btn btn-xs btn-outline-danger flex-grow-1 py-1">🗑️ 销毁</button>
+                        </div>
                     </div>
-                    <div class="px-3 py-2 border-bottom bg-body"><input type="text" id="fileSearchInput"
-                            class="form-control form-control-sm border-0 bg-body-tertiary" placeholder="🔍 全局搜索文件...">
+
+                    <!-- 3. 目录管理 (Folder Box) -->
+                    <div class="p-3 border-bottom bg-body-secondary bg-opacity-25">
+                        <label class="small text-muted fw-bold mb-2 d-block text-uppercase" style="font-size:0.6rem;">2. 目录管理 (Folder)</label>
+                        <div class="input-group input-group-sm mb-2 shadow-sm">
+                            <select id="folderSelector" class="form-select fw-bold"></select>
+                            <button id="btnNewFolder" class="btn btn-success" title="创建新目录">＋</button>
+                        </div>
+                        <div class="d-flex gap-1 mb-2">
+                            <button id="btnRenameFolder" class="btn btn-xs btn-outline-secondary flex-grow-1 py-1">✏️ 重命名</button>
+                            <button id="btnDeleteFolder" class="btn btn-xs btn-outline-danger flex-grow-1 py-1">🗑️ 删除</button>
+                        </div>
+                        <!-- 技能聚合卡片 -->
+                        <div id="manifestBanner" class="skill-card p-2 mt-2 bg-primary bg-opacity-10 border border-primary border-opacity-50 rounded" style="display:none;">
+                            <div class="small fw-bold text-primary mb-1 text-truncate" id="skillName">技能就绪</div>
+                            <button id="btnCopyContext" class="btn btn-primary btn-sm w-100 py-1 fw-bold" style="font-size: 0.65rem;">🚀 聚合技能上下文</button>
+                        </div>
                     </div>
-                    <div class="list-group list-group-flush overflow-y-auto flex-grow-1" id="fileListGroup"></div>
+
+                    <!-- 4. 文件管理 (File Box) -->
+                    <div class="p-3 flex-grow-1 d-flex flex-column overflow-hidden">
+                        <label class="small text-muted fw-bold mb-2 d-block text-uppercase" style="font-size:0.65rem;">3. 文件管理 (Files)</label>
+                        <div class="input-group input-group-sm mb-2 shadow-sm">
+                            <input type="text" id="fileSearchInput" class="form-control" placeholder="🔍 搜索文件...">
+                            <button id="btnNewFile" class="btn btn-success" title="新建文件">＋</button>
+                        </div>
+                        <div class="d-flex gap-1 mb-2">
+                            <button id="btnRenameFile" class="btn btn-xs btn-outline-secondary flex-grow-1 py-1" style="display:none;">✏️ 改名</button>
+                            <button id="btnDeleteFile" class="btn btn-xs btn-outline-danger flex-grow-1 py-1" style="display:none;">🗑️ 删除</button>
+                        </div>
+                        <div class="list-group list-group-flush overflow-y-auto flex-grow-1 border rounded shadow-inner" id="fileListGroup">
+                            <div class="text-center p-4 text-muted small">请先选择仓库</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 编辑器 -->
-            <div class="col-12 col-md-9 col-lg-10 d-flex flex-column bg-body h-100">
-                <div
-                    class="d-flex justify-content-between align-items-center p-2 border-bottom bg-body-secondary bg-opacity-10">
-                    <div class="d-flex align-items-center overflow-hidden"><span id="currentFileName"
-                            class="fw-bold font-monospace px-2 text-truncate">未选择文件</span></div>
+            <!-- 右侧编辑器 -->
+            <div class="col-12 col-md-8 col-lg-9 col-xl-10 d-flex flex-column bg-body h-100">
+                <div class="d-flex justify-content-between align-items-center p-2 border-bottom bg-body-secondary bg-opacity-10">
+                    <div class="d-flex align-items-center overflow-hidden"><span id="currentFileName" class="fw-bold font-monospace px-2 text-truncate">未选择文件</span></div>
                     <div class="d-flex gap-1 flex-shrink-0 align-items-center">
-                        <div class="position-relative"><button id="btnEmoji"
-                                class="btn btn-sm btn-outline-secondary border-0 px-2">😀</button>
-                            <div id="emojiPicker" class="emoji-picker-panel shadow-lg border rounded bg-body"
-                                style="display:none;"></div>
-                        </div>
-                        <button id="btnRenameFile" class="btn btn-sm btn-outline-primary border-0 px-2"
-                            style="display:none;">✏️ <span class="d-none d-sm-inline">重命名</span></button>
-                        <button id="btnUpload" class="btn btn-sm btn-outline-secondary border-0 px-2">🖼️ <span
-                                class="d-none d-sm-inline">上传</span></button><input type="file" id="imageFileInput"
-                            accept="image/*" style="display:none;">
-                        <button id="btnDelete" class="btn btn-sm btn-outline-danger border-0 px-2"
-                            style="display:none;">🗑️ <span class="d-none d-sm-inline">删除</span></button>
-                        <button id="btnLoad" class="btn btn-sm btn-outline-primary border-0 px-2">🔄 <span
-                                class="d-none d-sm-inline">同步</span></button>
-                        <button id="btnSave" class="btn btn-sm btn-success px-2">💾 <span
-                                class="d-none d-sm-inline">保存</span></button>
+                        <div class="position-relative"><button id="btnEmoji" class="btn btn-sm btn-outline-secondary border-0 px-2">😀</button><div id="emojiPicker" class="emoji-picker-panel shadow-lg border rounded bg-body" style="display:none;"></div></div>
+                        <button id="btnUpload" class="btn btn-sm btn-outline-secondary border-0 px-2 text-nowrap">🖼️ <span class="d-none d-sm-inline">图片</span></button>
+                        <input type="file" id="imageFileInput" accept="image/*" style="display:none;">
+                        <button id="btnLoad" class="btn btn-sm btn-outline-primary border-0 px-2 text-nowrap">🔄 <span class="d-none d-sm-inline">同步</span></button>
+                        <button id="btnSave" class="btn btn-sm btn-success px-2 text-nowrap">💾 <span class="d-none d-sm-inline">保存</span></button>
                     </div>
                 </div>
                 <ul class="nav nav-tabs nav-tabs-sm px-2 pt-2 border-bottom-0 flex-shrink-0" id="myTab">
-                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
-                            data-bs-target="#view-pane">👁️ 预览</button></li>
-                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit-pane">✏️
-                            编辑</button></li>
+                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#view-pane">👁️ 预览数据</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit-pane">✏️ 源码编辑</button></li>
                 </ul>
                 <div class="tab-content flex-grow-1 overflow-hidden position-relative">
                     <div class="tab-pane fade show active h-100 overflow-y-auto p-3" id="view-pane">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div id="syntax-error-container" class="flex-grow-1 me-2"></div><button id="btnCopyRaw"
-                                class="btn btn-sm btn-outline-secondary flex-shrink-0">📋 复制</button>
-                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2"><div id="syntax-error-container" class="flex-grow-1 me-2"></div><button id="btnCopyRaw" class="btn btn-sm btn-outline-secondary flex-shrink-0">📋 复制原文</button></div>
                         <div id="markdown-preview" class="markdown-body"></div>
                     </div>
-                    <div class="tab-pane fade h-100" id="edit-pane"><textarea id="editor"
-                            class="form-control border-0 rounded-0 h-100 font-monospace p-3" style="resize: none;"
-                            placeholder="在此输入内容..." spellcheck="false"></textarea></div>
+                    <div class="tab-pane fade h-100" id="edit-pane"><textarea id="editor" class="form-control border-0 rounded-0 h-100 font-monospace p-3" style="resize: none;" placeholder="在此输入内容..."></textarea></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 设置 Modal -->
-    <div class="modal fade" id="settingsModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>⚙️ 仓库配置</h5>
-                </div>
-                <div class="modal-body">
-                    <form id="configForm">
-                        <div class="mb-3"><label class="form-label fw-bold">GitHub Token</label><input type="password"
-                                id="cfgToken" class="form-control" required></div>
-                        <div class="row g-2 mb-3">
-                            <div class="col"><label class="form-label fw-bold">Owner</label><input type="text"
-                                    id="cfgUser" class="form-control" required></div>
-                            <div class="col"><label class="form-label fw-bold">Repo</label><input type="text"
-                                    id="cfgRepo" class="form-control" required></div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer"><button id="btnSaveSettings" type="button"
-                        class="btn btn-primary w-100">保存并刷新</button></div>
-            </div>
-        </div>
-    </div>
+    <div class="modal fade" id="settingsModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5>⚙️ 核心配置</h5></div><div class="modal-body"><form id="configForm"><div class="mb-3"><label class="form-label fw-bold">GitHub Token</label><input type="password" id="cfgToken" class="form-control" required></div><div class="row g-2 mb-3"><div class="col"><label class="form-label fw-bold">用户名 (Owner)</label><input type="text" id="cfgUser" class="form-control" required></div><div class="col"><label class="form-label fw-bold">Repo</label><input type="text" id="cfgRepo" class="form-control" required></div></div></form></div><div class="modal-footer"><button id="btnSaveSettings" type="button" class="btn btn-primary w-100">保存并刷新</button></div></div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script type="module" src="main.js"></script>
 </body>
-
 </html>

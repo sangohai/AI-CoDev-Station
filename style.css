@@ -1,32 +1,64 @@
+/**
+ * AI-CoDev-Station | 核心样式表 (v2.0 滚动优化版)
+ */
+
 /* --- 1. 基础全局规范 --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
 }
 
-/* 滚动条美化 */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
-[data-bs-theme="dark"] ::-webkit-scrollbar-thumb { background: #666; }
+/* 滚动条整体美化 */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #adb5bd;
+    border-radius: 3px;
+}
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #495057;
+}
 
-/* --- 2. 侧边栏与资产管理器 (Boxes) --- */
+/* --- 2. 侧边栏与资产管理器 (Sidebar & Boxes) --- */
+
+/* [核心修复] 确保侧边栏整体可滚动 */
+.offcanvas-body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex;
+    flex-direction: column;
+    /* iOS 滚动优化 */
+    -webkit-overflow-scrolling: touch; 
+}
+
+/* 强制侧边栏内的各个操作盒不被压缩，确保内容高度真实 */
+.offcanvas-body > .p-3, 
+.offcanvas-body > .border-bottom {
+    flex-shrink: 0 !important;
+}
 
 #sidebarMenu {
     background-color: var(--bs-tertiary-bg);
 }
 
-/* [核心] 文件 BOX 统一深色背景 */
+/* [核心] 文件列表 Box：统一深色专业背景 */
 #fileListGroup {
-    background-color: #2a2d31 !important; /* 极致深灰/黑色 */
+    background-color: #121212 !important;
     border-color: #2d2d2d !important;
-    min-height: 200px;
+    min-height: 250px; /* 保证基础高度 */
+    flex-shrink: 0;
 }
 
 /* 文件项基础样式 */
 #fileListGroup .list-group-item {
-    background-color: transparent; /* 透明背景以显露容器的黑色 */
-    color: #b0b0b0;               /* 浅灰色文字 */
+    background-color: transparent;
+    color: #b0b0b0;
     border: none;
     font-size: 0.85rem;
     padding: 8px 12px;
@@ -34,14 +66,14 @@ body {
     cursor: pointer;
 }
 
-/* 悬停效果：亮灰色提示 */
+/* 文件项悬停效果 */
 #fileListGroup .list-group-item:hover:not(.active) {
     background-color: #2a2d31 !important;
     color: #ffffff !important;
 }
 
-/* 选中状态：深蓝色高亮 */
-#fileListGroup .list-group-item.active {
+/* 文件项选中/激活状态 */
+.list-group-item.active {
     background-color: #0d6efd !important;
     color: #ffffff !important;
     font-weight: 600 !important;
@@ -52,17 +84,23 @@ body {
 .skill-card {
     border-style: dashed !important;
     background-color: rgba(13, 110, 253, 0.08) !important;
-    transition: all 0.3s;
+    transition: transform 0.2s, background-color 0.2s;
 }
 .skill-card:hover {
+    transform: translateY(-1px);
     background-color: rgba(13, 110, 253, 0.15) !important;
 }
 
-/* 微型按钮 */
+/* 侧边栏微型按钮样式 */
 .btn-xs {
     padding: 0.15rem 0.4rem;
     font-size: 0.7rem;
     border-radius: 0.2rem;
+}
+
+/* 内部区域阴影感 */
+.shadow-inner {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.08);
 }
 
 /* --- 3. 编辑器与预览系统 --- */
@@ -81,7 +119,13 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* 代码预览区：与文件 BOX 风格统一 */
+#markdown-preview blockquote {
+    border-left: 4px solid #dee2e6;
+    padding-left: 1rem;
+    color: #6c757d;
+}
+
+/* 代码预览区：与文件 Box 视觉统一 */
 #markdown-preview pre {
     background-color: #1e1e1e !important;
     padding: 1.25rem;
@@ -91,16 +135,17 @@ body {
 }
 
 #markdown-preview pre code {
-    font-family: 'Cascadia Code', Consolas, monospace;
+    font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
     font-size: 0.88rem;
     color: #dcdcdc;
     background: transparent !important;
 }
 
-/* 错误提示 */
+/* 语法审计错误提示条样式 */
 #syntax-error-container .alert {
     border-left: 4px solid #dc3545;
-    animation: slideDown 0.3s ease;
+    animation: slideDown 0.3s ease-out;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
 }
 
 @keyframes slideDown {
@@ -108,8 +153,9 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- 4. 功能组件 --- */
+/* --- 4. 辅助功能组件 --- */
 
+/* Emoji 选择器面板 */
 .emoji-picker-panel {
     position: absolute;
     top: 110%;
@@ -132,15 +178,32 @@ body {
 }
 .emoji-item:hover { transform: scale(1.25); }
 
+/* 全屏加载遮罩 */
 #global-loader {
     backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
 }
 
-/* --- 5. 响应式与排版修正 --- */
-@media (max-width: 768px) {
-    .card-header .btn span { display: none; }
-}
+/* --- 5. 响应式与交互细节 --- */
 
+/* 导航栏与标题栏按钮强制不换行 */
 .navbar .btn, .card-header .btn {
     white-space: nowrap !important;
+}
+
+@media (max-width: 768px) {
+    .card-header .btn span { display: none !important; }
+    
+    /* 移动端侧边栏宽度优化 */
+    .offcanvas-md {
+        width: 85% !important;
+    }
+}
+
+/* PC 端增加按钮点击感 */
+@media (min-width: 576px) {
+    .btn-sm {
+        padding-left: 0.7rem !important;
+        padding-right: 0.7rem !important;
+    }
 }
